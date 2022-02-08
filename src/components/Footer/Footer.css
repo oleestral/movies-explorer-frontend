@@ -1,0 +1,111 @@
+.footer__sign {
+  padding: 0;
+  margin: 0;
+  font-weight: normal;
+  color: #a0a0a0;
+  text-align: center;
+}
+.footer__line {
+  padding: 0;
+  height: 0;
+  border: none;
+  border-top: 1px solid #e8e8e8;
+}
+.footer__box {
+  display: flex;
+}
+.footer__navigation {
+  display: flex;
+}
+.footer__link {
+  font-weight: normal;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  color: #000000;
+}
+.footer__link:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.footer__link:visited {
+  color: #000000;
+}
+.footer__year {
+  color: #a0a0a0;
+  font-weight: normal;
+  padding: 0;
+  margin: 0;
+}
+@media screen and (min-width: 320px) {
+  .footer {
+    padding: 0 14px;
+    background: #ffffff;
+  }
+  .footer__sign {
+    padding: 79px 0 21px 0;
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .footer__box {
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+  }
+  .footer__navigation {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .footer__link {
+    font-size: 12px;
+    line-height: 15px;
+    margin-bottom: 12px;
+  }
+  .footer__year {
+    font-size: 12px;
+    line-height: 15px;
+    padding-bottom: 10px;
+  }
+}
+@media screen and (min-width: 767px) {
+  .footer {
+    padding: 0 30px;
+  }
+  .footer__sign {
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+  }
+  .footer__box {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+  }
+  .footer__navigation {
+    flex-direction: row;
+  }
+  .footer__link {
+    font-size: 13px;
+    line-height: 16px;
+    margin-right: 20px;
+    margin-bottom: 0;
+  }
+  .footer__link:last-child {
+    margin-right: 0;
+  }
+  .footer__year {
+    font-size: 13px;
+    line-height: 16px;
+    padding-bottom: 0;
+    color: #000000;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .footer {
+    padding: 0 70px;
+    background: #fafafa;
+  }
+}

@@ -1,0 +1,109 @@
+.header-authed {
+  display: flex;
+  position: relative;
+}
+.header-authed__movies {
+  display: flex;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+.header-authed__movies-list {
+  font-size: 14px;
+  line-height: 18px;
+  margin-right: 20px;
+}
+.header-authed__movies-saved {
+  font-size: 14px;
+  line-height: 18px;
+}
+.header-authed__link {
+  text-decoration: none;
+  color: black;
+}
+.header-authed__link:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.header-authed__link:visited {
+  color: black;
+}
+.header-authed__link:focus {
+  font-weight: 500;
+}
+.header-authed__account {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin: 0;
+}
+.header-authed__profile {
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  line-height: 16px;
+  margin-right: 13px;
+}
+.header-authed__img {
+  width: 30px;
+  height: 30px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header-authed__icon {
+  width: 11px;
+  height: 11px;
+}
+.header-authed__menu:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+@media screen and (max-width: 1279px) {
+  .header-authed {
+    flex-direction: column;
+    margin-top: 144px;
+    align-items: center;
+  }
+  .header-authed__movies {
+    flex-direction: column;
+  }
+  .header-authed__account {
+    margin-top: 400px;
+  }
+  .header-authed__movies-list {
+    font-size: 18px;
+    line-height: 22px;
+    margin-bottom: 24px;
+  }
+  .header-authed__movies-saved {
+    font-size: 18px;
+    line-height: 22px;
+  }
+  .header-authed__link:active {
+    text-decoration: black;
+  }
+  .header-authed__link:last-child {
+    margin-bottom: 0;
+  }
+  .header-authed__link:focus {
+    text-decoration: 2px underline;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .header-authed {
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0;
+  }
+  .header-authed__movies {
+    flex-direction: row;
+    margin-right: 50px;
+  }
+  .header-authed__account {
+    margin-top: 0;
+  }
+}
