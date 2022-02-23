@@ -1,0 +1,161 @@
+.about-project {
+  display: flex;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+.about-project__titles {
+  padding: 0;
+  margin: 0;
+  letter-spacing: -0.04em;
+  font-weight: normal;
+}
+.about-project__subtitles {
+  padding: 0;
+  margin: 0;
+}
+.about-project__timesheet {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  width: fit-content;
+}
+.about-project__timesheet-parts {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.about-project__line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+}
+.about-project__line_green {
+  background: #2be080;
+}
+.about-project__line_grey {
+  background: #f2f2f2;
+}
+.about-project__timesheet-sign {
+  padding: 0;
+  color: #a0a0a0;
+}
+@media screen and (min-width: 320px) {
+  .about-project {
+    margin-top: 60px;
+    padding: 0 18px;
+    flex-direction: column;
+    padding-bottom: 70px;
+    justify-content: center;
+    align-items: center;
+  }
+  .about-project__titles {
+    font-size: 18px;
+    line-height: 22px;
+    width: 284px;
+  }
+  .about-project__subtitles {
+    font-size: 11px;
+    line-height: 16px;
+    margin-top: 16px;
+    width: 284px;
+  }
+  .about-project__time {
+    margin-top: 56px;
+  }
+  .about-project__timesheet {
+    margin-top: 60px;
+  }
+  .about-project__line {
+    font-size: 11px;
+    line-height: 13px;
+  }
+  .about-project__line_green {
+    width: 100px;
+  }
+  .about-project__line_grey {
+    width: 174px;
+  }
+  .about-project__timesheet-sign {
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+    margin-top: 10px;
+  }
+}
+@media screen and (min-width: 768px) {
+  .about-project {
+    margin-top: 70px;
+    padding: 0 50px;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 90px;
+  }
+  .about-project__titles {
+    font-size: 20px;
+    line-height: 24px;
+    width: 319px;
+  }
+  .about-project__subtitles {
+    font-size: 12px;
+    line-height: 18px;
+    margin-top: 22px;
+    width: 319px;
+  }
+  .about-project__time {
+    margin: 0;
+  }
+  .about-project__timesheet {
+    margin-top: 93px;
+  }
+  .about-project__line {
+    font-size: 14px;
+    line-height: 17px;
+  }
+  .about-project__line_green {
+    width: 140px;
+  }
+  .about-project__line_grey {
+    width: 528px;
+  }
+  .about-project__timesheet-sign {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    margin-top: 14px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .about-project {
+    padding: 0 70px;
+    padding-bottom: 100px;
+    justify-content: flex-start;
+  }
+  .about-project__subtitles {
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 26px;
+    width: 550px;
+  }
+  .about-project__time {
+    margin: 0;
+  }
+  .about-project__timesheet {
+    margin-top: 110px;
+  }
+  .about-project__line_green {
+    width: 228px;
+  }
+  .about-project__line_grey {
+    width: 912px;
+  }
+  .about-project__timesheet-sign {
+    font-weight: 500;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .about-project {
+    justify-content: center;
+  }
+}
