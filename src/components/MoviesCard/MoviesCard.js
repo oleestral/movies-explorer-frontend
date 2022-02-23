@@ -1,25 +1,52 @@
 import React from 'react';
-import MoviePic from '../../images/movie-pic.png'
-function MoviesCard() {
-    const [isSaved, setIsSaved] = React.useState(true)
-    const [color, setColor] = React.useState('')
-    function doSaved() {
-        setIsSaved(!isSaved)
-        if(isSaved === true) {
-            setColor('#2BE080')
-        }
+
+function MoviesCard(props) {
+    const [time, setTime] = React.useState('')
+    const [click, setClick] = React.useState(false)
+    const buttonStyle = `movies-card__btn movies-card__circle ${click ? 'movies-card__circle_active' : 'movies-card__circle_notactive'}`
+
+    //convert duration
+    function getTimeFromMins(mins) {
+        let hours = Math.trunc(mins/60);
+        let minutes = mins % 60;
+        return hours + 'ч' + minutes + 'м';
+    }
+    //make saved & unsaved
+    function handleSaveMovie() {
+        setClick(!click)
+        if(click) {
+            props.onMovieDelete(props.savedMoviesArray.data.filter((item) => item.movieId === props.movie.id)[0])
+        } 
         else {
-            setColor('#F9F9F9')
+            props.onMovieSave(props.movie)
         }
     }
+    //delete movie
+    function handleDeleteMovie() {
+        props.onMovieDelete(props.savedMoviesArray.filter((item) => item._id === props.movie._id)[0])
+    }
+    //setting duration
+    React.useEffect(() => {
+        setTime(getTimeFromMins(props.movie.duration))
+    },[props.movie])
+    //setting like
+    React.useEffect(() => {
+            if (props.savedMoviesArray.data && props.savedMoviesArray.data.some((item) => item && item.movieId === props.movie.id)) {
+                setClick(true)
+            }
+    }, [props.movie, props.savedMoviesArray.data])
+
+
     return(
-        <div className="movies-card">
-            <img className="movies-card__img" alt="moviePicture" src={MoviePic}/>
+        <div className="movies-card" id={props.movie.id}>
+            <a href={props.movie.trailerLink} alt = "trailer">
+                {window.location.pathname === '/saved-movies' ? (<img className="movies-card__img" alt="moviePicture" src={props.movie.image} target="_blank"/>) : (<img className="movies-card__img" alt="moviePicture" src={`https://api.nomoreparties.co/${props.movie.image.url}`} target="_blank"/>)}
+            </a>
             <div className='movies-card__box'>
-                <h2 className='movies-card__title'>33 слова о дизайне</h2>
-                {window.location.pathname === '/saved-movies' ? (<button type='button' className='movies-card__btn movies-card__cross'/>) : ( <button type='button' className='movies-card__btn movies-card__circle' onClick={doSaved} style={{background:color}}/>)}
+                <h2 className='movies-card__title'>{props.movie.nameRU}</h2>
+                {window.location.pathname === '/saved-movies' ? (<button type='button' className='movies-card__btn movies-card__cross' onClick={handleDeleteMovie}/>) : ( <button type='button' className={buttonStyle} onClick={handleSaveMovie}/>)}
             </div>
-            <p className='movies-card__sign'>1ч42м</p>
+            <p className='movies-card__sign'>{time}</p>
         </div>
     )
 }

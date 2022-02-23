@@ -35,6 +35,12 @@
   border: 2px solid #ffffff;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.09);
 }
+.movies-card__circle_notactive {
+  background-color: #f9f9f9;
+}
+.movies-card__circle_active {
+  background-color: #2be080;
+}
 .movies-card__cross {
   background-image: url(../../images/cross.svg);
   background-color: #fdfdfd;
@@ -58,6 +64,7 @@
   .movies-card__title {
     font-size: 13px;
     line-height: 16px;
+    width: 245px;
   }
   .movies-card__sign {
     font-size: 11px;
@@ -71,6 +78,9 @@
   .movies-card__img {
     height: 190px;
   }
+  .movies-card__title {
+    width: 250px;
+  }
 }
 @media screen and (min-width: 1280px) {
   .movies-card {
@@ -78,5 +88,8 @@
   }
   .movies-card__img {
     height: 151px;
+  }
+  .movies-card__title {
+    width: 200px;
   }
 }

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Account from '../../images/account.svg'
 import { Link } from 'react-router-dom';
 function HeaderAuthed() {
