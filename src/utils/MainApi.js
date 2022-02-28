@@ -1,3 +1,4 @@
+import { MAIN_URL, CONTENT_URL } from './constants'
 class MainApi {
     constructor({ address }) {
         this._address = address;
@@ -54,14 +55,15 @@ class MainApi {
                 duration: movie.duration,
                 year: movie.year,
                 description: movie.description,
-                image: `https://api.nomoreparties.co${movie.image.url}`,
+                image: `${CONTENT_URL}${movie.image.url}`,
                 trailer: movie.trailerLink,
                 nameRU: movie.nameRU,
                 nameEN: movie.nameEN || '...',
-                thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+                thumbnail: `${CONTENT_URL}${movie.image.formats.thumbnail.url}`,
                 movieId: movie.id,
             })
         })
+        .then(this._getResponseData);
     }
     //delete movie
     removeMovie(movie, token) {
@@ -75,6 +77,6 @@ class MainApi {
     }
 }
 const apiMain = new MainApi({
-    address: "https://api.oleestral.diploma.nomoredomains.rocks",
+    address: `${MAIN_URL}`,
   });
   export default apiMain;

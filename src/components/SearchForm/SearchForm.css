@@ -64,6 +64,7 @@
   }
   .search-form__input {
     padding: 16px 20px;
+    width: 238px;
   }
 }
 @media screen and (min-width: 768px) {
@@ -71,10 +72,16 @@
     padding: 80px 30px 10px 30px;
     flex-direction: column;
   }
+  .search-form__input {
+    width: 655px;
+  }
 }
 @media screen and (min-width: 1280px) {
   .search-form {
     padding: 80px 70px 10px 70px;
     flex-direction: column;
+  }
+  .search-form__input {
+    width: 1085px;
   }
 }

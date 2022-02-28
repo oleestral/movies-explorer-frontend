@@ -5,10 +5,9 @@ import ErrorPopup from "../ErrorPopup/ErrorPopup";
 import HeaderForms from "../HeaderForms/HeaderForms";
 
 function Register(props) {
-    const history = useHistory()
     const { values, handleChange, resetForm, errors, isValid } = useFormWithValidation();
+    const history = useHistory()
     const isDisabled = !isValid
-
     React.useEffect(() => {
         resetForm({}, {}, false);
       }, [resetForm]);
@@ -45,6 +44,7 @@ function Register(props) {
                             type="email"
                             value={values.email || ''}
                             onChange={handleChange}
+                            pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}"
                             required
                         />
                         <span className="form__error">{errors.email}</span>

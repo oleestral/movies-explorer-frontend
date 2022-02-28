@@ -1,3 +1,4 @@
+import { MAIN_URL } from './constants'
 class Auth {
     constructor({ BASE_URL, headers  }) {
       this._url = BASE_URL;
@@ -36,7 +37,7 @@ class Auth {
       }).then(this._getResponseData);
     }
   }
-  const auth = new Auth({ BASE_URL: "https://api.oleestral.diploma.nomoredomains.rocks",
+  const auth = new Auth({ BASE_URL: `${MAIN_URL}`,
   headers: {
     "Content-Type": "application/json",
     "Accept": "application/json"

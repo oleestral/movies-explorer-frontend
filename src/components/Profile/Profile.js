@@ -7,9 +7,24 @@ function Profile(props) {
     const [isEdit, setIsEdit] = React.useState(false)
     const currentUser = React.useContext(CurrentUserContext);
     const { values, handleChange, resetForm, errors, isValid, setValues } = useFormWithValidation();
-    const isDisabled = !isValid
+    const [isChanged, setisChanged] = React.useState(false)
+    const isDisabled = !isValid || isChanged
 
-    function handleSubmit(e) {
+    React.useEffect(() => {
+        if(currentUser.name === values.name && currentUser.email === values.email) {
+            setisChanged(true)
+        }
+        else {
+            setisChanged(false)
+        }
+        
+    },[currentUser, values.email, values.name])
+
+    React.useEffect(() => {
+        setValues(currentUser)
+      }, [resetForm, currentUser, setValues]);
+
+      function handleSubmit(e) {
         e.preventDefault();
         props.onProfile({name: values.name, email: values.email });
         setIsEdit(false)
@@ -17,9 +32,6 @@ function Profile(props) {
     function handleEdit() {
         setIsEdit(true)
     }
-    React.useEffect(() => {
-        setValues(currentUser)
-      }, [resetForm, currentUser, setValues]);
 
     return (
         <section className="profile">
@@ -49,8 +61,9 @@ function Profile(props) {
                         name="email" 
                         value={values.email || ''}  
                         onChange={handleChange}
-                        required
                         disabled={!isEdit}
+                        pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}"
+                        required
                         />
                 </div>
                 <span className="form__error">{errors.email}</span>

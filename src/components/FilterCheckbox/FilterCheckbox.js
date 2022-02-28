@@ -7,7 +7,7 @@ function FilterCheckbox(props) {
   return (
     <div className="filter-checkbox">
         <label className="switch">
-            <input type="checkbox" onClick={handleFilter}/>
+            <input type="checkbox" onClick={handleFilter} defaultChecked={props.defaultValue}/>
             <span className="slider round"></span>
         </label>
         <p className="filter-checkbox__sign">Короткометражки</p>

@@ -1,10 +1,9 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {useFormWithValidation} from '../Validation/Validation'
 import ErrorPopup from "../ErrorPopup/ErrorPopup";
 import HeaderForms from "../HeaderForms/HeaderForms";
 function Login(props) {
-    const history = useHistory()
     const { values, handleChange, resetForm, errors, isValid } = useFormWithValidation();
 
     const isDisabled = !isValid
@@ -16,7 +15,6 @@ function Login(props) {
     function handleSubmit(e) {
         e.preventDefault();
         props.onLogin(values);
-        history.push("/movies")
     }
     return(
         <section className="login">
@@ -31,6 +29,7 @@ function Login(props) {
                             type="email"
                             value={values.email || ''}
                             onChange={handleChange}
+                            pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}"
                             required
                         />
                         <span className="form__error">{errors.email}</span>

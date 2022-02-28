@@ -1,4 +1,5 @@
 import React from 'react';
+import {CONTENT_URL} from '../../utils/constants'
 
 function MoviesCard(props) {
     const [time, setTime] = React.useState('')
@@ -15,8 +16,8 @@ function MoviesCard(props) {
     function handleSaveMovie() {
         setClick(!click)
         if(click) {
-            props.onMovieDelete(props.savedMoviesArray.data.filter((item) => item.movieId === props.movie.id)[0])
-        } 
+            props.onMovieDelete(props.savedMoviesArray.filter((item) => item.movieId === props.movie.id)[0])
+        }
         else {
             props.onMovieSave(props.movie)
         }
@@ -31,16 +32,15 @@ function MoviesCard(props) {
     },[props.movie])
     //setting like
     React.useEffect(() => {
-            if (props.savedMoviesArray.data && props.savedMoviesArray.data.some((item) => item && item.movieId === props.movie.id)) {
-                setClick(true)
-            }
-    }, [props.movie, props.savedMoviesArray.data])
-
+        if (props.savedMoviesArray && props.savedMoviesArray.some((item) => item && item.movieId === props.movie.id)) {
+            setClick(true)
+        }
+    }, [props.movie, props.savedMoviesArray])
 
     return(
-        <div className="movies-card" id={props.movie.id}>
+        <div className="movies-card" id={window.location.pathname === '/movies' ? `${props.movie.id}` : `${props.movie.movieId}`}>
             <a href={props.movie.trailerLink} alt = "trailer">
-                {window.location.pathname === '/saved-movies' ? (<img className="movies-card__img" alt="moviePicture" src={props.movie.image} target="_blank"/>) : (<img className="movies-card__img" alt="moviePicture" src={`https://api.nomoreparties.co/${props.movie.image.url}`} target="_blank"/>)}
+                {window.location.pathname === '/saved-movies' ? (<img className="movies-card__img" alt="moviePicture" src={props.movie.image} target="_blank"/>) : (<img className="movies-card__img" alt="moviePicture" src={`${CONTENT_URL}${props.movie.image.url}`} target="_blank"/>)}
             </a>
             <div className='movies-card__box'>
                 <h2 className='movies-card__title'>{props.movie.nameRU}</h2>

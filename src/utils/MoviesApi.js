@@ -1,3 +1,4 @@
+import { MOVIES_URL } from './constants'
 class MoviesApi {
     constructor({ address }) {
         this._address = address;
@@ -20,6 +21,6 @@ class MoviesApi {
     }
 }
 const apiMovies = new MoviesApi({
-    address: "https://api.nomoreparties.co/beatfilm-movies",
+    address: `${MOVIES_URL}`,
 })
 export default apiMovies;

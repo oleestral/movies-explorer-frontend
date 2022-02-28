@@ -6,6 +6,12 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 function SearchForm(props) {
   const [text, setText] = React.useState('')
 
+  React.useState(() => {
+    if (window.location.pathname === '/movies') {
+      setText(localStorage.getItem('keyWordMovies') || '')
+    }
+  })
+
   function handleInsertText(e) {
     setText(e.target.value)
   }
@@ -34,7 +40,7 @@ function SearchForm(props) {
           ><img className='search-form__btn-img' alt="find" src={find}/></button>
         </div>
         <div className="search-form__filter">
-          <FilterCheckbox onFilter={props.onFilter}/>
+          <FilterCheckbox onFilter={props.onFilter} defaultValue={props.defaultValue}/>
         </div>
         <hr className='search-form__line'/>
       </form>
