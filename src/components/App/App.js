@@ -109,7 +109,7 @@ function App() {
   }
       //// hide button when the result is full
   React.useEffect(() => {
-  const currentMovies = JSON.parse(localStorage.getItem("resultMovies"))
+  const currentMovies = JSON.parse(localStorage.getItem("resultMovies")) || []
   if(displayedMovies.length === currentMovies.length) {
       setIsVisibleButton(false)
   }
@@ -183,8 +183,10 @@ function App() {
       .signUp(email, password, name)
       .then((item) => {
         if(item) {
+          localStorage.setItem("jwt", item.token);
           handleSignIn(item)
           setIsLogged(true)
+          history.push("/movies")
         }
       })
       .catch((err) => {
