@@ -241,6 +241,8 @@ React.useEffect(() => {
     localStorage.removeItem("filterCheckboxMovies");
     localStorage.removeItem("resultMovies");
     localStorage.removeItem("keyWordMovies");
+    setResultMovies([])
+    setDisplayedMovies([])
     history.push("/")
   }
   ////update profile
@@ -341,8 +343,8 @@ React.useEffect(() => {
   React.useEffect(() => {
     const currentMovies = JSON.parse(localStorage.getItem("resultMovies"))
     if (!currentMovies) {
-    setResultMovies([])
-    setDisplayedMovies([])
+      setResultMovies([])
+      setDisplayedMovies([])
     }
   },[])
 
