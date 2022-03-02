@@ -243,8 +243,7 @@ React.useEffect(() => {
     localStorage.removeItem("filterCheckboxMovies");
     localStorage.removeItem("resultMovies");
     localStorage.removeItem("keyWordMovies");
-    setResultSavedMovies([])
-    setDisplayedMovies([])
+    setResultMovies([])
     history.push("/")
   }
   ////update profile
