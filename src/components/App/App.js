@@ -175,8 +175,6 @@ function App() {
           }
           else setDisplayedSavedMovies([])
       },[moviesQuantity, resultSavedMovies])
-      console.log(displayedSavedMovies)
-      console.log(resultSavedMovies)
   ////signup
   function handleSignUp(email, password, name) {
     auth
@@ -243,7 +241,6 @@ React.useEffect(() => {
     localStorage.removeItem("filterCheckboxMovies");
     localStorage.removeItem("resultMovies");
     localStorage.removeItem("keyWordMovies");
-    setResultMovies([])
     history.push("/")
   }
   ////update profile
@@ -344,6 +341,7 @@ React.useEffect(() => {
   React.useEffect(() => {
     const currentMovies = JSON.parse(localStorage.getItem("resultMovies"))
     if (!currentMovies) {
+    setResultMovies([])
     setDisplayedMovies([])
     }
   },[])
