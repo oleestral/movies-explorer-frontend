@@ -37,11 +37,12 @@ function Header(props) {
       }, [screenSize])
 
       React.useEffect(() => {
-          if ((props.isLogged && location.pathname === '/') || !props.isLogged) {
+        const jwt = localStorage.getItem("jwt");
+          if ((jwt && location.pathname === '/') || !jwt) {
               setIsBackground('#465dff')
           }
           else setIsBackground('#FFFFFF')
-      },[props.isLogged, location])
+      },[location])
       
 
 return (
@@ -49,7 +50,7 @@ return (
     {(location.pathname !== '/signin' && location.pathname !== '/signup') && 
         <header className='header' style={{backgroundColor: isBackground}}>
             <Logo />
-            {!props.isLogged ? <HeaderNotAuthed/> : 
+            {!localStorage.getItem("jwt") ? <HeaderNotAuthed/> : 
             (<>
                 {!isSized ? <HeaderAuthed/> :
                 <>

@@ -42,7 +42,6 @@ function App() {
   const [isVisibleButton, setIsVisibleButton] = React.useState(false)
   const [isVisibleButtonSavedCase, setIsVisibleButtonSavedCase] = React.useState(false)
   const [isChange, setIsChanged] = React.useState(false)
-  const [isToken, setIsToken] = React.useState(false)
   const [screenSize, getDimension] = React.useState({
     dynamicWidth: window.innerWidth
   });
@@ -119,7 +118,7 @@ function App() {
   //// hide button when the result is full saved movies
   React.useEffect(() => {
     if(displayedSavedMovies.length === resultSavedMovies.length) {
-        setIsVisibleButton(false)
+      setIsVisibleButtonSavedCase(false)
     }
     },[displayedSavedMovies.length, resultSavedMovies.length])
 
@@ -166,7 +165,6 @@ function App() {
           setIsPreloader(false)
           if(resultSavedMovies && resultSavedMovies.length !== 0) {
               if(resultSavedMovies.length > moviesQuantity) {
-                console.log('yes')
                 setIsVisibleButtonSavedCase(true)
                   setDisplayedSavedMovies(resultSavedMovies.slice(0, moviesQuantity))
               }
@@ -174,12 +172,11 @@ function App() {
                 setIsVisibleButtonSavedCase(false)
                 setDisplayedSavedMovies(resultSavedMovies)
               }
-              
-          } else {
-            setDisplayedSavedMovies([])
           }
+          else setDisplayedSavedMovies([])
       },[moviesQuantity, resultSavedMovies])
-
+      console.log(displayedSavedMovies)
+      console.log(resultSavedMovies)
   ////signup
   function handleSignUp(email, password, name) {
     auth
@@ -207,11 +204,8 @@ function App() {
       setIsLogged(true)
     })
     .then(() => {
-      const test = localStorage.getItem("jwt")
-      console.log(test)
-      if(test) {
+      if(localStorage.getItem("jwt")) {
         history.push('/movies')
-        console.log('test 2',test)
       }
     })
     .catch((err) => {
@@ -249,6 +243,8 @@ React.useEffect(() => {
     localStorage.removeItem("filterCheckboxMovies");
     localStorage.removeItem("resultMovies");
     localStorage.removeItem("keyWordMovies");
+    setResultSavedMovies([])
+    setDisplayedMovies([])
     history.push("/")
   }
   ////update profile
@@ -326,7 +322,7 @@ React.useEffect(() => {
               .saveMovie(movie, jwt)
               .then((item) => {
                 setSavedMovies([...savedMovies, item])
-                setDisplayedSavedMovies([...savedMovies, item])
+                setResultSavedMovies([...savedMovies, item])
               })
               .catch((err) => {
                   console.log(err)
@@ -340,7 +336,7 @@ React.useEffect(() => {
           .removeMovie(movie, jwt)
           .then(() => {
             setSavedMovies(savedMovies.filter((c) => c._id !== movie._id))
-            setDisplayedSavedMovies(displayedSavedMovies.filter((c) => c._id !== movie._id))
+            setResultSavedMovies(resultSavedMovies.filter((c) => c._id !== movie._id))
           })
           .catch((err) => {
               console.log(err)
@@ -357,7 +353,7 @@ React.useEffect(() => {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
       <BrowserRouter>
-      <Header isLogged={isLogged}/>
+      <Header/>
         <Switch>
             <Route exact path="/">
               <Main/>
