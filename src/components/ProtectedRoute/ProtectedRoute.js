@@ -6,7 +6,7 @@ const ProtectedRoute = ({ component: Component, ...props }) => {
   return (
     <Route>
       {() =>
-        jwt ? <Component {...props} /> : <Redirect to="/" />
+        props.isLogged || jwt ? <Component {...props} /> : <Redirect to="/" />
       }
     </Route>
   );

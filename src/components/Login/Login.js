@@ -14,7 +14,7 @@ function Login(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        props.onLogin(values);
+        props.onLogin(values.email, values.password);
     }
     return(
         <section className="login">

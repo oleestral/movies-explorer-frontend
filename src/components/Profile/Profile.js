@@ -18,7 +18,7 @@ function Profile(props) {
             setisChanged(false)
         }
         
-    },[currentUser, values.email, values.name])
+    },[currentUser, values])
 
     React.useEffect(() => {
         setValues(currentUser)

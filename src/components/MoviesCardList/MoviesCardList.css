@@ -3,7 +3,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 320px;
 }
 .movies-card-list__box {
   margin: 0;

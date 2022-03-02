@@ -12,11 +12,11 @@ class Auth {
       }
       return res.json();
     }
-    signIn(data) {
+    signIn(email, password) {
       return fetch(`${this._url}/signin`, {
         method: "POST",
         headers: this._headers,
-        body: JSON.stringify({ email: data.email, password: data.password }),
+        body: JSON.stringify({ email: email, password: password }),
       }).then(this._getResponseData);
     }
     signUp(email, password, name) {

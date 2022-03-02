@@ -1,12 +1,11 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {useFormWithValidation} from '../Validation/Validation'
 import ErrorPopup from "../ErrorPopup/ErrorPopup";
 import HeaderForms from "../HeaderForms/HeaderForms";
 
 function Register(props) {
     const { values, handleChange, resetForm, errors, isValid } = useFormWithValidation();
-    const history = useHistory()
     const isDisabled = !isValid
     React.useEffect(() => {
         resetForm({}, {}, false);
@@ -14,8 +13,7 @@ function Register(props) {
       
     function handleSubmit(e) {
         e.preventDefault();
-        props.onRegister(values);
-        history.push("/movies")
+        props.onRegister(values.email, values.password, values.name);
     }
     return (
         <section className="register">

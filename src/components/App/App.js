@@ -18,7 +18,7 @@ import apiMovies from '../../utils/MoviesApi';
 
 function App() {
   const history = useHistory();
-  const [currentUser, setCurrentUser] = React.useState({ name: "", about: "" });
+  const [currentUser, setCurrentUser] = React.useState({ name: "", email: "" });
 
   const [movies, getMovies] = React.useState([])
   const [resultMovies, setResultMovies] = React.useState([])
@@ -40,7 +40,9 @@ function App() {
   const [isPreloader, setIsPreloader] = React.useState(false)
   const [isNotFound, setIsNotFound] = React.useState(false)
   const [isVisibleButton, setIsVisibleButton] = React.useState(false)
+  const [isVisibleButtonSavedCase, setIsVisibleButtonSavedCase] = React.useState(false)
   const [isChange, setIsChanged] = React.useState(false)
+  const [isToken, setIsToken] = React.useState(false)
   const [screenSize, getDimension] = React.useState({
     dynamicWidth: window.innerWidth
   });
@@ -96,7 +98,7 @@ function App() {
   //// add movies depending on screen size
   function handleLoadMovies() {
     const currentMovies = JSON.parse(localStorage.getItem("resultMovies"))
-    if(window.location.pathname === '/movies') {
+    if(window.location.pathname === '/movies' && currentMovies) {
         setDisplayedMovies((state) => {
             return currentMovies.slice(0, state.length +  addMovieQuantity)
         });
@@ -164,11 +166,12 @@ function App() {
           setIsPreloader(false)
           if(resultSavedMovies && resultSavedMovies.length !== 0) {
               if(resultSavedMovies.length > moviesQuantity) {
-                setIsVisibleButton(true)
+                console.log('yes')
+                setIsVisibleButtonSavedCase(true)
                   setDisplayedSavedMovies(resultSavedMovies.slice(0, moviesQuantity))
               }
               else {
-                setIsVisibleButton(false)
+                setIsVisibleButtonSavedCase(false)
                 setDisplayedSavedMovies(resultSavedMovies)
               }
               
@@ -178,16 +181,11 @@ function App() {
       },[moviesQuantity, resultSavedMovies])
 
   ////signup
-  function handleSignUp({email, password, name}) {
+  function handleSignUp(email, password, name) {
     auth
       .signUp(email, password, name)
-      .then((item) => {
-        if(item) {
-          localStorage.setItem("jwt", item.token);
-          handleSignIn(item)
-          setIsLogged(true)
-          history.push("/movies")
-        }
+      .then(() => {
+        handleSignIn(email, password)
       })
       .catch((err) => {
         setIsError(true)
@@ -199,15 +197,21 @@ function App() {
         }
       });
 }
+
   ////signin
-  function handleSignIn(data) {
+  function handleSignIn(email, password) {
     auth
-    .signIn(data)
+    .signIn(email, password)
     .then((item) => {
-      if(item) {
-        localStorage.setItem("jwt", item.token);
-        setIsLogged(true)
-        history.push("/movies")
+      localStorage.setItem("jwt", item.token);
+      setIsLogged(true)
+    })
+    .then(() => {
+      const test = localStorage.getItem("jwt")
+      console.log(test)
+      if(test) {
+        history.push('/movies')
+        console.log('test 2',test)
       }
     })
     .catch((err) => {
@@ -221,12 +225,25 @@ function App() {
       else {
         setErrorText("При авторизации произошла ошибка")
       }
-      
     })
   }
+ ////get user data
+React.useEffect(() => {
+  const jwt = localStorage.getItem("jwt");
+    apiMain
+      .getUserInfo(jwt)
+      .then((item) => {
+        setIsLogged(true)
+        setCurrentUser(item)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+},[isChange, isLogged]);
+
   ////logout
   function handleLogOut() {
-    setIsLogged (false);
+    setIsLogged(false);
     localStorage.removeItem("jwt");
     localStorage.removeItem("resultFilteredMovies");
     localStorage.removeItem("filterCheckboxMovies");
@@ -254,31 +271,6 @@ function App() {
           }
       })
   }
- ////check token & get user data
- function getUserInfo(token) {
-  apiMain
-      .getUserInfo(token)
-      .then((item) => {
-        setCurrentUser(item)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-}
-React.useEffect(() => {
-  const jwt = localStorage.getItem("jwt");
-    auth
-    .checkToken(jwt)
-    .then((item) => {
-      if(item) {
-        setIsLogged(true)
-        getUserInfo(jwt)
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-},[isLogged, isChange]);
         ////search movie
       function handleMovieSearch(value) {
           setIsPreloader(true)
@@ -342,9 +334,9 @@ React.useEffect(() => {
         }
 
   ////delete movie 
-  async function handleDeleteMovie(movie) {
+  function handleDeleteMovie(movie) {
       const jwt = localStorage.getItem("jwt"); 
-      await apiMain
+      apiMain
           .removeMovie(movie, jwt)
           .then(() => {
             setSavedMovies(savedMovies.filter((c) => c._id !== movie._id))
@@ -354,6 +346,12 @@ React.useEffect(() => {
               console.log(err)
           })
   }
+  React.useEffect(() => {
+    const currentMovies = JSON.parse(localStorage.getItem("resultMovies"))
+    if (!currentMovies) {
+    setDisplayedMovies([])
+    }
+  },[])
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -378,6 +376,7 @@ React.useEffect(() => {
               isVisibleButton={isVisibleButton}
               showMore={handleLoadMovies}
               defaultValue={JSON.parse(localStorage.getItem('filterCheckboxMovies')) || false}
+              isLogged={isLogged}
             />
             <ProtectedRoute
               path="/saved-movies"
@@ -388,8 +387,9 @@ React.useEffect(() => {
               showMore={handleLoadMovies}
               isPreloader={isPreloader}
               isNotFound={isNotFound}
-              isVisible={isVisibleButton}
+              isVisible={isVisibleButtonSavedCase}
               onFilter={handleMovieFilter}
+              isLogged={isLogged}
             />
             <ProtectedRoute
               path="/profile"
@@ -398,6 +398,7 @@ React.useEffect(() => {
               onProfile={handleUpdateProfile}
               title={errorText}
               isError={isError}
+              isLogged={isLogged}
             />
 
             <Route path='/signup'>
