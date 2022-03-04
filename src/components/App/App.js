@@ -45,7 +45,6 @@ function App() {
   const [isNotFound, setIsNotFound] = React.useState(false)
   const [isVisibleButton, setIsVisibleButton] = React.useState(false)
   const [isVisibleButtonSavedCase, setIsVisibleButtonSavedCase] = React.useState(false)
-  const [isChange, setIsChanged] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   const [screenSize, getDimension] = React.useState({
     dynamicWidth: window.innerWidth
@@ -207,18 +206,6 @@ function App() {
       setIsError(false)
     })
     .then(() => {
-      const jwt = localStorage.getItem("jwt");
-        apiMain
-            .getSavedMovies(jwt)
-            .then((item) => {
-                setSavedMovies(item.data)
-                setResultSavedMovies(item.data)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    })
-    .then(() => {
       setIsLoading(false)
     })
     .catch((err) => {
@@ -244,10 +231,21 @@ React.useEffect(() => {
         setIsLogged(true)
         setCurrentUser(item)
       })
+      .then(() => {
+        apiMain
+        .getSavedMovies(jwt)
+        .then((item) => {
+            setSavedMovies(item.data)
+            setResultSavedMovies(item.data)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+      })
       .catch((err) => {
         console.log(err);
       });
-},[isChange, isLogged]);
+},[isLogged]);
 
   ////logout
   function handleLogOut() {
@@ -270,7 +268,6 @@ React.useEffect(() => {
         setCurrentUser(item.data)
         setIsError(true)
         setErrorText("Профиль успешно обновлен!")
-        setIsChanged(true)
       })
       .then(() => {
         setIsLoading(false)

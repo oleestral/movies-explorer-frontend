@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Route } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import HeaderNotAuthed from '../HeaderNotAuthed/HeaderNotAuthed';
 import HeaderAuthed from '../HeaderAuthed/HeaderAuthed';
@@ -46,8 +46,8 @@ function Header(props) {
       
 
 return (
-    <>
-    {(location.pathname !== '/signin' && location.pathname !== '/signup') && 
+    <Route path="/(|movies|saved-movies|profile|signin|signup)">
+        {(location.pathname !== '/signin' && location.pathname !== '/signup') && 
         <header className='header' style={{backgroundColor: isBackground}}>
             <Logo />
             {!localStorage.getItem("jwt") ? <HeaderNotAuthed/> : 
@@ -65,7 +65,7 @@ return (
             </>)}
         </header>
     }
-    </>
+    </Route>
 )
 }
 export default Header;
