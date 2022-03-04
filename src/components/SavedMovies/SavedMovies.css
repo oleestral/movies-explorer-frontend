@@ -1,0 +1,6 @@
+.saved-movies {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 735px;
+}

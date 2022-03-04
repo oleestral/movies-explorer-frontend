@@ -1,9 +1,24 @@
 
-import './SearchForm.css';
+import React from 'react';
 import find from '../../images/find.svg'
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-function SearchForm() {
+function SearchForm(props) {
+  const [text, setText] = React.useState('')
+
+  React.useState(() => {
+    if (window.location.pathname === '/movies') {
+      setText(localStorage.getItem('keyWordMovies') || '')
+    }
+  })
+
+  function handleInsertText(e) {
+    setText(e.target.value)
+  }
+  function handleSearch(e) {
+    e.preventDefault();
+    props.onSearch(text)
+  }
   return (
     <section className="search-form">
       <form className="search-form__form">
@@ -14,15 +29,18 @@ function SearchForm() {
             type="text"
             name="query"
             placeholder="Фильм"
+            value={text}
             required
+            onChange={handleInsertText}
           />
           <button
             className="search-form__btn"
             type="submit"
+            onClick={handleSearch}
           ><img className='search-form__btn-img' alt="find" src={find}/></button>
         </div>
         <div className="search-form__filter">
-          <FilterCheckbox/>
+          <FilterCheckbox onFilter={props.onFilter} defaultValue={props.defaultValue}/>
         </div>
         <hr className='search-form__line'/>
       </form>

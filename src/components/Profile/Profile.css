@@ -17,9 +17,10 @@
   flex-direction: column;
 }
 .profile__form-item {
+  display: flex;
+  justify-content: space-between;
   border-bottom: 1px solid #e8e8e8;
   padding-bottom: 16px;
-  margin-bottom: 17px;
 }
 .profile__form-item:last-child {
   border-bottom: none;
@@ -31,16 +32,17 @@
   font-size: 11px;
   line-height: 13px;
 }
-.profile__form-item {
-  display: flex;
-  justify-content: space-between;
-}
 .profile__input {
   outline: none;
   border: none;
   font-size: 11px;
   line-height: 13px;
   text-align: right;
+}
+.profile__input_disabled {
+  background-color: inherit;
+  color: black;
+  cursor: not-allowed;
 }
 .profile__buttons {
   display: flex;
@@ -76,7 +78,8 @@
     margin-right: 10px;
   }
   .profile__input {
-    width: 120px;
+    width: 100%;
+    padding-left: 2px;
   }
   .profile__buttons {
     margin-top: 330px;

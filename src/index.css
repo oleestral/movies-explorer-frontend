@@ -24,3 +24,7 @@
 @import url(./components/MoviesCard/MoviesCard.css);
 @import url(./components/MoviesCardList/MoviesCardList.css);
 @import url(./components/Profile/Profile.css);
+@import url(./components/ErrorPopup/ErrorPopup.css);
+@import url(./components/SearchForm/SearchForm.css);
+@import url(./components/SavedMovies/SavedMovies.css);
+@import url(./components/Movies/Movies.css);

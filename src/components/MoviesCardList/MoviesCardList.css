@@ -20,6 +20,14 @@
   text-align: center;
   height: 36px;
 }
+.movies-card-list__btn_flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.movies-card-list__btn_hidden {
+  display: none;
+}
 .movies-card-list__btn:hover {
   cursor: pointer;
   opacity: 0.8;
