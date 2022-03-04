@@ -32,6 +32,7 @@ function Register(props) {
                             maxLength="30"
                             pattern="^[A-Za-zА-Яа-яЁё\s]+$"
                             required
+                            disabled={props.isLoading}
                         />
                         <span className="form__error">{errors.name}</span>
                         <label htmlFor="email" className="form__label">E-mail</label>
@@ -44,6 +45,7 @@ function Register(props) {
                             onChange={handleChange}
                             pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}"
                             required
+                            disabled={props.isLoading}
                         />
                         <span className="form__error">{errors.email}</span>
                         <label htmlFor="password" className="form__label">Пароль</label>
@@ -56,10 +58,11 @@ function Register(props) {
                             value={values.password || ''}
                             onChange={handleChange}
                             minLength="8"
+                            disabled={props.isLoading}
                         />
                         <span className="form__error">{errors.password}</span>
                         <ErrorPopup isError={props.isError} title={props.title}/>
-                        <button type='submit' className={`${isDisabled ? "form__btn form__btn_disabled" : "form__btn"}`} disabled={isDisabled}>Регистрация</button>
+                        <button type='submit' className={`${isDisabled ? "form__btn form__btn_disabled" : "form__btn"}`} disabled={isDisabled || props.isLoading}>Регистрация</button>
                 </form>
             <p className="form__subtext form__sign">Уже зарегистрированы?
             <Link to="/signin" className="form__link"><span className="form__subtext">Войти</span></Link></p>

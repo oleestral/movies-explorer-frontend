@@ -1,17 +1,12 @@
 import React from 'react';
 import {CONTENT_URL} from '../../utils/constants'
+import getTimeFromMins from '../../utils/movieDuration';
 
 function MoviesCard(props) {
     const [time, setTime] = React.useState('')
     const [click, setClick] = React.useState(false)
     const buttonStyle = `movies-card__btn movies-card__circle ${click ? 'movies-card__circle_active' : 'movies-card__circle_notactive'}`
 
-    //convert duration
-    function getTimeFromMins(mins) {
-        let hours = Math.trunc(mins/60);
-        let minutes = mins % 60;
-        return hours + 'ч' + minutes + 'м';
-    }
     //make saved & unsaved
     function handleSaveMovie() {
         setClick(!click)

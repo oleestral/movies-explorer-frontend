@@ -1,20 +1,25 @@
+import React from 'react';
+import { Route, Switch, useHistory, BrowserRouter, Redirect} from 'react-router-dom';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import { CurrentUserContext } from "../../context/CurrentUserContext";
 import '../../index.css';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
-import { Route, Switch, useHistory, BrowserRouter, Redirect} from 'react-router-dom';
 import NotFoundError from '../NotFoundError/NotFoundError';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Footer from '../Footer/Footer';
 import Profile from '../Profile/Profile';
-import React from 'react';
 import auth from "../../utils/Auth";
-import { CurrentUserContext } from "../../context/CurrentUserContext";
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies'
 import apiMain from '../../utils/MainApi';
 import apiMovies from '../../utils/MoviesApi';
+import { SHORT_MOVIE_DURATION , 
+  MOVIES_NUMBER_SMALL_SCREEN, MOVIES_NUMBER_SMALL_SCREEN_ADD, 
+  MOVIES_NUMBER_MEDUIM_SCREEN,MOVIES_NUMBER_MEDIUM_SCREEN_ADD,
+  MOVIES_NUMBER_BIG_SCREEN, MOVIES_NUMBER_BIG_SCREEN_ADD
+} from '../../utils/constants'
 
 function App() {
   const history = useHistory();
@@ -33,7 +38,6 @@ function App() {
   const [moviesQuantity, setMoviesQuantity] = React.useState(0)
   const [addMovieQuantity, setAddMovieQuantity] = React.useState(0)
 
-
   const [isLogged, setIsLogged] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
   const [errorText, setErrorText] = React.useState('');
@@ -42,53 +46,41 @@ function App() {
   const [isVisibleButton, setIsVisibleButton] = React.useState(false)
   const [isVisibleButtonSavedCase, setIsVisibleButtonSavedCase] = React.useState(false)
   const [isChange, setIsChanged] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
   const [screenSize, getDimension] = React.useState({
     dynamicWidth: window.innerWidth
   });
+
   const setDimension = () => {
     getDimension({
       dynamicWidth: window.innerWidth
     })
   }
-
-  ////get all movies
-  React.useEffect(() => {
-    apiMovies
-        .getMovies()
-        .then((item) => {
-            getMovies(item)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-},[])
-    ////gettin saved movies
+    ////get all movies
     React.useEffect(() => {
-      const jwt = localStorage.getItem("jwt");
-        apiMain
-            .getSavedMovies(jwt)
-            .then((item) => {
-                setSavedMovies(item.data)
-                setResultSavedMovies(item.data)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    },[])
+      apiMovies
+          .getMovies()
+          .then((item) => {
+              getMovies(item)
+          })
+          .catch((err) => {
+              console.log(err)
+          })
+  },[])
   ////define screen size and set movies numbers
   React.useEffect(() => {
     window.addEventListener('resize', setDimension);
     if(window.innerWidth < 768) {
-        setMoviesQuantity(5)
-        setAddMovieQuantity(1)
+        setMoviesQuantity(MOVIES_NUMBER_SMALL_SCREEN)
+        setAddMovieQuantity(MOVIES_NUMBER_SMALL_SCREEN_ADD)
     }
     else if (window.innerWidth >= 768 && window.innerWidth < 1280) {
-        setMoviesQuantity(8)
-        setAddMovieQuantity(2)
+        setMoviesQuantity(MOVIES_NUMBER_MEDUIM_SCREEN)
+        setAddMovieQuantity(MOVIES_NUMBER_MEDIUM_SCREEN_ADD)
     }
     else if (window.innerWidth >= 1280) {
-        setMoviesQuantity(12)
-        setAddMovieQuantity(4)
+        setMoviesQuantity(MOVIES_NUMBER_BIG_SCREEN)
+        setAddMovieQuantity(MOVIES_NUMBER_BIG_SCREEN_ADD)
     }
     return(() => {
         window.removeEventListener('resize', setDimension);
@@ -177,10 +169,15 @@ function App() {
       },[moviesQuantity, resultSavedMovies])
   ////signup
   function handleSignUp(email, password, name) {
+    setIsLoading(true)
     auth
       .signUp(email, password, name)
       .then(() => {
         handleSignIn(email, password)
+        setIsError(false)
+      })
+      .then(() => {
+        setIsLoading(false)
       })
       .catch((err) => {
         setIsError(true)
@@ -190,11 +187,13 @@ function App() {
         else {
           setErrorText("При регистрации пользователя произошла ошибка")
         }
-      });
+        setIsLoading(false)
+      })
 }
 
   ////signin
   function handleSignIn(email, password) {
+    setIsLoading(true)
     auth
     .signIn(email, password)
     .then((item) => {
@@ -205,6 +204,22 @@ function App() {
       if(localStorage.getItem("jwt")) {
         history.push('/movies')
       }
+      setIsError(false)
+    })
+    .then(() => {
+      const jwt = localStorage.getItem("jwt");
+        apiMain
+            .getSavedMovies(jwt)
+            .then((item) => {
+                setSavedMovies(item.data)
+                setResultSavedMovies(item.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    })
+    .then(() => {
+      setIsLoading(false)
     })
     .catch((err) => {
       setIsError(true)
@@ -217,6 +232,7 @@ function App() {
       else {
         setErrorText("При авторизации произошла ошибка")
       }
+      setIsLoading(false)
     })
   }
  ////get user data
@@ -247,13 +263,17 @@ React.useEffect(() => {
   }
   ////update profile
   function handleUpdateProfile({ name, email }) {
+    setIsLoading(true)
     const jwt = localStorage.getItem("jwt");
     apiMain.editUserProfile(name, email, jwt)
       .then((item) => {
-        setCurrentUser(item)
+        setCurrentUser(item.data)
         setIsError(true)
         setErrorText("Профиль успешно обновлен!")
         setIsChanged(true)
+      })
+      .then(() => {
+        setIsLoading(false)
       })
       .catch((err) => {
         setIsError(true)
@@ -263,6 +283,7 @@ React.useEffect(() => {
           else {
             setErrorText("При обновлении профиля произошла ошибка")
           }
+          setIsLoading(false)
       })
   }
         ////search movie
@@ -290,7 +311,7 @@ React.useEffect(() => {
             const currentMovies = JSON.parse(localStorage.getItem("resultMovies"))
             setFoundMovie(currentMovies)
             if(value) {
-              const currentFilteredMovies = currentMovies.filter((m) => m.duration <= 40)
+              const currentFilteredMovies = currentMovies.filter((m) => m.duration <= SHORT_MOVIE_DURATION)
               localStorage.setItem('resultFilteredMovies', JSON.stringify(currentFilteredMovies))
               setResultMovies(currentFilteredMovies)
               setIsNotFound(true)
@@ -303,7 +324,7 @@ React.useEffect(() => {
           else {
             setFoundSavedMovies(resultSavedMovies)
             if(value) {
-             setResultSavedMovies(resultSavedMovies.filter((m) => m.duration <= 40))
+             setResultSavedMovies(resultSavedMovies.filter((m) => m.duration <= SHORT_MOVIE_DURATION))
               setIsNotFound(true)
             }
             else {
@@ -347,6 +368,13 @@ React.useEffect(() => {
       setDisplayedMovies([])
     }
   },[])
+  //// error disappear
+  React.useEffect(() => {
+    const error = setTimeout(() => {
+      setIsError(false)
+    }, 5000)
+    return () => clearTimeout(error)
+  },[isError])
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -394,20 +422,21 @@ React.useEffect(() => {
               title={errorText}
               isError={isError}
               isLogged={isLogged}
+              isLoading={isLoading}
             />
 
             <Route path='/signup'>
             {isLogged ? (
                   <Redirect to="/movies" />
                 ) : (
-                  <Register onRegister={handleSignUp} title={errorText} isError={isError}/>
+                  <Register onRegister={handleSignUp} title={errorText} isError={isError} isLoading={isLoading}/>
                 )}
             </Route>
             <Route path='/signin'>
             {isLogged ? (
                   <Redirect to="/movies" />
                 ) : (
-                  <Login onLogin={handleSignIn} title={errorText} isError={isError}/>
+                  <Login onLogin={handleSignIn} title={errorText} isError={isError} isLoading={isLoading}/>
                 )}
             </Route>
             <Route path="*">

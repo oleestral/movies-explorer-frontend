@@ -31,6 +31,7 @@ function Login(props) {
                             onChange={handleChange}
                             pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}"
                             required
+                            disabled={props.isLoading}
                         />
                         <span className="form__error">{errors.email}</span>
                         <label htmlFor="password" className="form__label">Пароль</label>
@@ -43,10 +44,11 @@ function Login(props) {
                             value={values.password || ''}
                             onChange={handleChange}
                             minLength="8"
+                            disabled={props.isLoading}
                         />
                         <span className="form__error">{errors.password}</span>
                         <ErrorPopup isError={props.isError} title={props.title}/>
-                        <button type='submit' className={`${isDisabled ? "form__btn form__btn_disabled" : "form__btn"}`} disabled={isDisabled}>Войти</button>
+                        <button type='submit' className={`${isDisabled ? "form__btn form__btn_disabled" : "form__btn"}`} disabled={isDisabled || props.isLoading}>Войти</button>
                 </form>
             <p className="form__subtext form__sign">Ещё не зарегистрированы?
             <Link to="/signup" className="form__link"><span className="form__subtext">Регистрация</span></Link></p>

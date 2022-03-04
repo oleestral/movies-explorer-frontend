@@ -39,17 +39,17 @@ function Profile(props) {
             <form className='profile__form' onSubmit={handleSubmit}>
                 <div className='profile__form-item'>
                     <label className='profile__label'>Имя</label>
-                    <input 
-                        className={`${!isEdit ? "profile__input profile__input_disabled" : "profile__input"}`}
-                        type='text' 
-                        name="name" 
-                        value={values.name || ''}  
-                        onChange={handleChange}
-                        minLength="2"
-                        maxLength="30"
-                        pattern="^[A-Za-zА-Яа-яЁё\s]+$"
-                        required
-                        disabled={!isEdit}
+                        <input 
+                            className={`${!isEdit ? "profile__input profile__input_disabled" : "profile__input"}`}
+                            type='text' 
+                            name="name" 
+                            value={values.name || ''}  
+                            onChange={handleChange}
+                            minLength="2"
+                            maxLength="30"
+                            pattern="^[A-Za-zА-Яа-яЁё\s]+$"
+                            required
+                            disabled={!isEdit || props.isLoading}
                         />
                 </div>
                 <span className="form__error">{errors.name}</span>
@@ -61,7 +61,7 @@ function Profile(props) {
                         name="email" 
                         value={values.email || ''}  
                         onChange={handleChange}
-                        disabled={!isEdit}
+                        disabled={!isEdit || props.isLoading}
                         pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}"
                         required
                         />
@@ -70,12 +70,11 @@ function Profile(props) {
                 <div className='profile__buttons'>
                 <ErrorPopup isError={props.isError} title={props.title}/>
                 {isEdit ? 
-                (<button type="submit" className='profile__btn' disabled={isDisabled}>Сохранить</button>) : 
+                (<button type="submit" className='profile__btn' disabled={isDisabled || props.isLoading}>Сохранить</button>) : 
                 (<>
                     <button type="button" className='profile__btn' onClick={handleEdit}>Редактировать</button>
-                    <button type="button" className='profile__btn profile__exit-btn' onClick={props.onSignOut}>Выйти из аккаунта</button>
                 </>)}
-                
+                <button type="button" className='profile__btn profile__exit-btn' onClick={props.onSignOut}>Выйти из аккаунта</button>
                 </div>
                 
             </form>
